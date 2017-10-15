@@ -21,21 +21,29 @@ today = datetime.datetime.now()
 timestamps = []
 days = 52
 day_no = 7
-delay = 0.25
+delay = 2
 for i in range(days):
     d = today - datetime.timedelta(days=day_no * i)
     timestamps.append(int(time.mktime(d.timetuple())))
 
-coins = list(coins)[:10]
+coins = list(coins)
 #coins = ["BTC", "ETC"]
-data = pandas.DataFrame(np.zeros((len(coins), days)), index=coins, columns=timestamps)
+empty = np.empty((len(coins), days))
+empty[:] = None
+data = pandas.DataFrame(empty, index=coins, columns=timestamps)
 timestamps.reverse()
 
 for coin in tqdm(coins):
     for ts in tqdm(timestamps):
         #print url.format(coin=coin, timestamp=ts)
-        r = requests.get(url.format(coin=coin, timestamp=ts))
-        data.loc[coin, ts] = r.json().values()[0]["USD"]
+        done = False
+        while not done:
+            try:
+                r = requests.get(url.format(coin=coin, timestamp=ts))
+                data.loc[coin, ts] = r.json().values()[0]["USD"]
+                done = True
+            except:
+                time.sleep(10)
         time.sleep(delay)
 
 data.to_csv("coins.csv")

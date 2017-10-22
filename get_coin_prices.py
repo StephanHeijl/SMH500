@@ -2,8 +2,6 @@ import requests
 import json
 import datetime
 import time
-import pandas
-import numpy as np
 import sqlite3
 from tqdm import tqdm
 

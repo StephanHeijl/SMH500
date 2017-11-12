@@ -71,7 +71,7 @@ model = LSTMInvestor(N_COINS, 16, N_COINS + 1)
 loss_function = nn.NLLLoss()
 optimizer = optim.SGD(model.parameters(), lr=0.1)
 
-for epoch in range(300):  # again, normally you would NOT do 300 epochs, it is toy data
+for epoch in range(300): 
     for i in range(1000):
         # Step 1. Remember that Pytorch accumulates gradients.
         # We need to clear them out before each instance

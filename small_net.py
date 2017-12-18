@@ -146,6 +146,8 @@ print "Validation"
 y_pred = model.predict(X_test)
 print classification_report(y_test, y_pred > 0.5, digits=4)
 
+model.save("small_net.h5")
+
 model = Model(inputs=model.input, outputs=model.layers[-2].output)
 
 reduced = model.predict(X_test)

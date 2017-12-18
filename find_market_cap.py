@@ -1,9 +1,12 @@
+from __future__ import division
 import sqlite3
 import time
+import json
 import datetime
 import pandas
 import pprint
 import numpy as np
+import math
 
 pandas.options.display.width = None
 conn = sqlite3.connect('coins.db')
@@ -50,8 +53,11 @@ caps = {}
 for coin, group in full_data.groupby("coin"):
     caps[coin] = np.nanmean(group.loc[:, "market_cap"].values)
 
-caps = sorted(caps.items(), key=lambda x: x[1])[-50:]
+caps = sorted(caps.items(), key=lambda x: x[1])
 caps_sum = sum(dict(caps).values())
 
 caps = [(c, v / caps_sum) for c, v in caps]
 pprint.pprint(caps)
+
+with open("relative_market_caps.json", "w") as f:
+    json.dump(caps, f)

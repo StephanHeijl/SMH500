@@ -1,0 +1,8 @@
+*.png
+*.db
+*.bak
+*.pyc
+.ropeproject
+*.csv
+*.json
+*.swp
